@@ -1,0 +1,322 @@
+erDiagram
+
+
+
+%% HUB DEFINITIONS
+
+    H_ORDER {
+        binary h_order_id_hk PK
+        int h_order_id_bk
+        string rec_src
+        datetime load_dts
+    }
+
+    H_CUSTOMER {
+        binary h_customer_id_hk PK
+        int h_customer_id_bk
+        string rec_src
+        datetime load_dts
+    }
+
+    H_PHARMACY {
+        binary h_pharmacy_id_hk PK
+        int h_pharmacy_id_bk
+        string rec_src
+        datetime load_dts
+    }
+
+    H_PRODUCT {
+        binary h_product_id_hk PK
+        int h_product_id_bk
+        string rec_src
+        datetime load_dts
+    }
+
+    H_EMPLOYEE {
+        binary h_employee_id_hk PK
+        int h_employee_id_bk
+        string rec_src
+        datetime load_dts
+    }
+
+    H_DELIVERY {
+        binary h_delivery_id_hk PK
+        int h_delivery_id_bk
+        string rec_src
+        datetime load_dts
+    }
+
+
+
+%% LINK DEFINITIONS
+
+    H_ORDER 1--0+ L_ORDER_PRODUCT : ""
+    L_ORDER_PRODUCT 0+--1 H_PRODUCT : ""
+    L_ORDER_PRODUCT {
+        binary l_order_product_hk PK
+        binary h_order_id_hk FK
+        binary h_product_id_hk FK
+        string rec_src
+        datetime load_dts
+    }
+
+    H_ORDER 1--0+ L_ORDER_CUSTOMER : ""
+    L_ORDER_CUSTOMER 0+--1 H_CUSTOMER : ""
+    L_ORDER_CUSTOMER {
+        binary l_order_customer_hk PK
+        binary h_order_id_hk FK
+        binary h_customer_id_hk FK
+        string rec_src
+        datetime load_dts
+    }
+
+    H_ORDER 1--0+ L_ORDER_PHARMACY : ""
+    L_ORDER_PHARMACY 0+--1 H_PHARMACY : ""
+    L_ORDER_PHARMACY {
+        binary l_order_pharmacy_hk PK
+        binary h_order_id_hk FK
+        binary h_pharmacy_id_hk FK
+        string rec_src
+        datetime load_dts
+    }
+
+    H_EMPLOYEE 1--0+ L_EMPLOYEE_DELIVERY: ""
+    L_EMPLOYEE_DELIVERY 0+--1 H_DELIVERY : ""
+    L_EMPLOYEE_DELIVERY {
+        binary l_employee_delivery_hk PK
+        binary h_employee_id_hk FK
+        binary h_delivery_id_hk FK
+        string rec_src
+        datetime load_dts
+    }
+
+    H_ORDER 1--0+ L_ORDER_DELIVERY: ""
+    L_ORDER_DELIVERY 0+--1 H_DELIVERY : ""
+    L_ORDER_DELIVERY {
+        binary l_order_delivery_hk PK
+        binary h_order_id_hk FK
+        binary h_delivery_id_hk FK
+        string rec_src
+        datetime load_dts
+    }
+
+
+%% SATELLITE DEFINITIONS
+
+    H_ORDER 1--0+ S_H_ORDER_PRICING : ""
+    S_H_ORDER_PRICING {
+        binary h_order_id_hk FK
+        binary s_h_order_id_hk PK
+        string order_payment_status
+        string order_payment_method
+        float total_order_price
+        float tax
+        float discount
+        float paid_by_bonuses
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_ORDER 1--0+ S_H_ORDER_DETAILS : ""
+    S_H_ORDER_DETAILS {
+        binary h_order_id_hk FK
+        binary s_h_order_details_id_hk PK
+        string order_type
+        int order_priority
+        string applied_promo
+        string customer_notes
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_CUSTOMER 1--0+ S_H_CUSTOMER_PERSONALITY : ""
+    S_H_CUSTOMER_PERSONALITY {
+        binary h_customer_id_hk FK
+        binary s_h_customer_personality_id_hk PK
+        string first_name
+        string last_name
+        int gender
+        date birthdate
+        string email
+        string city
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_CUSTOMER 1--0+ S_H_CUSTOMER_ACCOUNT : ""
+    S_H_CUSTOMER_ACCOUNT {
+        binary h_customer_id_hk FK
+        binary s_h_customer_account_id_hk PK
+        string account_status
+        string account_role
+        string preffered_language
+        boolean service_subscription
+        boolean marketing_subscription
+        datetime last_login
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_CUSTOMER 1--0+ S_H_CUSTOMER_PAYMENTS : ""
+    S_H_CUSTOMER_PAYMENTS {
+        binary h_customer_id_hk FK
+        binary s_h_customer_payments_id_hk PK
+        string preffered_payment_method
+        int total_orders
+        int total_spent
+        float personal_discount
+        float current_bonuses
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_PHARMACY 1--0+ S_H_PHARMACY_DETAILS : ""
+    S_H_PHARMACY_DETAILS {
+        binary h_pharmacy_id_hk FK
+        binary s_h_pharmacy_details_id_hk PK
+        string pharm_network
+        string pharm_name
+        string(15) phone_number
+        string address
+        string geo_coords
+        float rating
+        bool is_pickup_avaliable
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_PRODUCT 1--0+ S_H_PRODUCT_DETAILS : ""
+    S_H_PRODUCT_DETAILS {
+        binary h_product_id_hk FK
+        binary s_h_product_details_id_hk PK
+        string product_name
+        string manufacturer
+        string description
+        string product_category
+        bool adult_only
+        bool recipe_only
+        float rating
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_PRODUCT 1--0+ S_H_PRODUCT_PRICING : ""
+    S_H_PRODUCT_PRICING {
+        binary h_product_id_hk FK
+        binary s_h_product_pricing_id_hk PK
+        float price
+        float social_discount
+        bool discount_by_bonuses_aval
+        bool discount_by_promo_aval
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_EMPLOYEE 1--0+ S_H_EMPLOYEE_PERSONALITY : ""
+    S_H_EMPLOYEE_PERSONALITY {
+        binary h_employee_id_hk FK
+        binary s_h_employee_personality_id_hk PK
+        string first_name
+        string last_name
+        int gender
+        date birthdate
+        string email
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_EMPLOYEE 1--0+ S_H_EMPLOYEE_CONTRACT: ""
+    S_H_EMPLOYEE_CONTRACT {
+        binary h_employee_id_hk FK
+        binary s_h_employee_contract_id_hk PK
+        string contract_type
+        string position
+        date contract_start_date
+        date contract_end_date
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_EMPLOYEE 1--0+ S_H_EMPLOYEE_DOCUMENTS: ""
+    S_H_EMPLOYEE_DOCUMENTS {
+        binary s_h_employee_documents_id_hk PK
+        binary h_employee_id_hk FK
+        int pasport_id
+        string passport_address
+        int tax_number
+        int insurance_number
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_EMPLOYEE 1--0+ S_H_EMPLOYEE_PAYMENT: ""
+    S_H_EMPLOYEE_PAYMENT {
+        binary h_employee_id_hk FK
+        float salary_per_hour
+        int working_hours_per_week
+        float yearly_bonus
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_DELIVERY 1--0+ S_H_DELIVERY_DETAILS : ""
+    S_H_DELIVERY_DETAILS {
+        binary h_delivery_id_hk FK
+        binary s_h_delivery_details_id_hk PK
+        datetime delivery_planned_dts
+        datetime delivery_fact_dts
+        float courier_to_customer_rating
+        float customer_to_courier_rating
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    H_DELIVERY 1--0+ S_H_DELIVERY_STATUS : ""
+    S_H_DELIVERY_STATUS {
+        binary h_delivery_id_hk FK
+        binary s_h_delivery_status_id_hk PK
+        string delivery_type
+        string delivery_status
+        string courier_notes
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+
+%% LINK SATELLITE DESCRIPTION
+
+    L_ORDER_CUSTOMER 1--0+ S_L_ORDER_CUSTOMER : ""
+    S_L_ORDER_CUSTOMER {
+        binary l_order_customer_id_hk FK
+        binary s_l_order_customer_id_hk PK
+        bool is_pickup
+        string customer_delivery_address
+        string rec_src
+        datetime from_dts
+        datetime to_dts
+    }
+
+    L_ORDER_PRODUCT 1--0+ S_L_ORDER_PRODUCT : ""
+    S_L_ORDER_PRODUCT {
+        binary l_order_product_id_hk FK
+        binary s_l_order_product_id_hk PK
+        int quantity
+        datetime from_dts
+        datetime to_dts
+    }
+
+
