@@ -85,9 +85,9 @@ def create_pg_connection():
     return create_engine(f'postgresql://{db_properties["user"]}:{db_properties["password"]}@{db_properties["host"]}:{db_properties["port"]}/{db_properties["database"]}')
 
 def create_s3_session():
-    session = boto3.session.Session(aws_access_key_id="YCAJEXsbfNDazFDJVgajrr7Js", 
-                                    aws_secret_access_key="YCPwYqUEnLDgB7sLGKJWuC1n5bOGLdj7ROnDTgGD", 
-                                    region_name="ru-central1")
+    session = boto3.session.Session(aws_access_key_id="", 
+                                    aws_secret_access_key="", 
+                                    region_name="")
     s3 = session.client(service_name="s3", endpoint_url="https://storage.yandexcloud.net")
     bucket = "rugrat-s3-cloud"
     return (s3, bucket)
