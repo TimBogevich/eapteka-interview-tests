@@ -1,0 +1,68 @@
+erDiagram
+
+OFFICES 1--1+ MANAGERS_OFFICES : ""
+MANAGERS 1--1 MANAGERS_OFFICES : ""
+PRODUCTS_DATA 1+--1 MANAGERS : ""
+PRODUCTS_DATA 1+--1 CATEGORIES : ""
+PRODUCTS_DATA 1+--1 PRODUCTS : ""
+PRODUCTS_DATA 1+--1 MANUFACTURERS_DATA : ""
+MANUFACTURERS_DATA 1--1+ MANUFACTURERS_PHONES : ""
+PHONES 1--1+ MANUFACTURERS_PHONES : ""
+PHONES 1--1 PHONE_TYPES : ""
+
+
+
+OFFICES {
+    int office_id PK
+    string office_name
+}
+
+MANAGERS {
+    int manager_id PK
+    string manager_name
+}
+
+MANAGERS_OFFICES {
+    int manager_id PK, FK
+    int office_id PK, FK
+}
+
+CATEGORIES {
+    int cat_id PK
+    str cat_name
+}
+
+PRODUCTS {
+    int product_id PK
+    str product_name
+}
+
+PRODUCTS_DATA {
+    int product_id PK, FK
+    int cat_id PK, FK
+    int manuf_id PK, FK
+    float price
+    string discount
+}
+
+MANUFACTURERS_DATA {
+    int manuf_id PK
+    string manuf_name
+}
+
+MANUFACTURERS_PHONES {
+    int manuf_id PK, FK
+    int phone_id PK, FK
+}
+
+PHONES {
+    int phone_id PK
+    string phone_num
+    int type_id FK
+}
+
+PHONE_TYPES {
+    int type_id PK
+    string phone_type
+}
+
